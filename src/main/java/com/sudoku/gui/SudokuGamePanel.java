@@ -54,21 +54,63 @@ public class SudokuGamePanel extends JPanel {
     }
     
     private void initializePanel() {
-        setLayout(new BorderLayout(20, 16));
+        setLayout(new BorderLayout(0, 0));
         setBackground(BG_PRIMARY);
-        setBorder(BorderFactory.createEmptyBorder(24, 28, 24, 28));
+        setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         
-        // Create main game grid
+        // Create header panel with title and status
+        JPanel headerPanel = createHeaderPanel();
+        add(headerPanel, BorderLayout.NORTH);
+        
+        // Create center panel with grid
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        centerPanel.setBackground(BG_PRIMARY);
         JPanel gridPanel = createGridPanel();
-        add(gridPanel, BorderLayout.CENTER);
+        centerPanel.add(gridPanel);
+        add(centerPanel, BorderLayout.CENTER);
         
         // Create control panel
         JPanel controlPanel = createControlPanel();
         add(controlPanel, BorderLayout.SOUTH);
+    }
+    
+    private JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(BG_SECONDARY);
+        headerPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_COLOR),
+            BorderFactory.createEmptyBorder(16, 24, 16, 24)
+        ));
         
-        // Create status panel
-        JPanel statusPanel = createStatusPanel();
-        add(statusPanel, BorderLayout.NORTH);
+        // Title
+        JLabel titleLabel = new JLabel("SUDOKU");
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titleLabel.setForeground(TEXT_PRIMARY);
+        
+        // Timer panel
+        JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        timerPanel.setBackground(BG_SECONDARY);
+        
+        timerLabel = new JLabel("00:00");
+        timerLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
+        timerLabel.setForeground(ACCENT_PRIMARY);
+        
+        timerPanel.add(timerLabel);
+        
+        // Status label
+        statusLabel = new JLabel("Welcome! Click 'New Game' to start.");
+        statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        statusLabel.setForeground(TEXT_SECONDARY);
+        
+        JPanel leftPanel = new JPanel(new BorderLayout(0, 4));
+        leftPanel.setBackground(BG_SECONDARY);
+        leftPanel.add(titleLabel, BorderLayout.NORTH);
+        leftPanel.add(statusLabel, BorderLayout.SOUTH);
+        
+        headerPanel.add(leftPanel, BorderLayout.WEST);
+        headerPanel.add(timerPanel, BorderLayout.EAST);
+        
+        return headerPanel;
     }
     
     private JPanel createGridPanel() {
@@ -231,28 +273,6 @@ public class SudokuGamePanel extends JPanel {
         });
     }
     
-    private JPanel createStatusPanel() {
-        JPanel statusPanel = new JPanel(new BorderLayout(20, 0));
-        statusPanel.setBackground(BG_SECONDARY);
-        statusPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_COLOR),
-            BorderFactory.createEmptyBorder(16, 24, 16, 24)
-        ));
-        
-        statusLabel = new JLabel("Welcome to Sudoku! Click 'New Game' to start.");
-        statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        statusLabel.setForeground(TEXT_SECONDARY);
-        
-        timerLabel = new JLabel("00:00");
-        timerLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
-        timerLabel.setForeground(ACCENT_PRIMARY);
-        timerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        
-        statusPanel.add(statusLabel, BorderLayout.WEST);
-        statusPanel.add(timerLabel, BorderLayout.EAST);
-        
-        return statusPanel;
-    }
     
     private void createGameTimer() {
         gameTimer = new Timer(1000, e -> updateTimer());
