@@ -1,0 +1,36 @@
+# Compiled class files
+*.class
+target/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+nbproject/private/
+
+# Database files
+sudokuDB/
+derby.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+logs/
